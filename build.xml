@@ -1,0 +1,23 @@
+<project name = "MyMAP" default="run">
+    <property name="src" location="src"/>
+    <property name="bin" location="classes"/>
+
+   <target name="clean">
+        <delete dir="${bin}"/>
+    </target>
+
+    <target name="init" description="init">
+        <mkdir dir="${bin}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${src}" destdir="${bin}" classpath="${bin}" includeantruntime="false">
+        </javac>
+    </target>
+
+    <target name="run" depends="compile">
+        <java classname="Application"  classpath="${bin}" fork="true">
+        </java>
+    </target>
+
+</project>
