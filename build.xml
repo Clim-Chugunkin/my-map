@@ -1,6 +1,10 @@
-<project name = "MyMAP" default="run">
+<project name = "MyMAP" default="test">
     <property name="src" location="src"/>
     <property name="bin" location="classes"/>
+    <property name="test" location="test"/>
+    <property name="lib" location="lib"/>
+
+
 
    <target name="clean">
         <delete dir="${bin}"/>
@@ -8,16 +12,30 @@
 
     <target name="init" description="init">
         <mkdir dir="${bin}"/>
+        <mkdir dir="${test}"/>
     </target>
 
     <target name="compile" depends="init">
-        <javac srcdir="${src}" destdir="${bin}" classpath="${bin}" includeantruntime="false">
+        <javac srcdir="${src}:${test}" destdir="${bin}" classpath="${bin}:./lib/junit.jar" includeantruntime="false">
         </javac>
     </target>
 
-    <target name="run" depends="compile">
-        <java classname="Application"  classpath="${bin}" fork="true">
-        </java>
+
+
+    <target name="test" depends="compile" >
+      <junit>
+        <classpath>
+            <fileset dir="${lib}" includes="junit.jar"/>
+            <pathelement  location="${bin}"/>
+        </classpath>
+
+        <formatter type="brief" usefile="false" />
+
+        <batchtest >
+            <fileset dir="${bin}" includes="*Test*.class" />
+        </batchtest>
+
+      </junit>
     </target>
 
 </project>
